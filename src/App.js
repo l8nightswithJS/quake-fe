@@ -10,6 +10,7 @@ import axiosWithAuth from './Data/axiosWithAuth';
 import jwtDecode from 'jwt-decode';
 import QuakeMap from './components/map_components/Map.js'
 import LastEarthQuakeButton from './components/map_components/LastEarthQuakeButton.js';
+import MultiQuakeMap from './components/map_components/MultiQuakeMap.js'
 import UserDashboard from './components/UserDashboard';
 
 //https://gifted-shirley-d83416.netlify.com/ is the deployed website.
@@ -40,12 +41,12 @@ function App() {
 
   return (
     <div className="App">
-     
-      <LastEarthQuakeButton />
+      
+      
       <PrivateRoute
         exact
         path='/map'
-        component = {props => <QuakeMap {...props} user = {user} />}
+        component = {props => <LastEarthQuakeButton {...props} user = {user} />}
       />
       <Route
         exact
@@ -71,8 +72,12 @@ function App() {
         exact
         path='/dashboard'
         render={props => <UserDashboard {...props} setUser={setUser} />}
-      /> 
-
+      />
+      <Route
+        exact
+        path='/multiquake'
+        render={props => <MultiQuakeMap {...props} setUser={setUser}/>} 
+      />
 
     </div>
   );
