@@ -38,17 +38,20 @@ function SignUp(props) {
             {({ isSubmitting, errors, touched }) => (
                 <Form className="form">
                 <div className = "form-div">
+            
                     <Field
-                    className="field"
+                    className="firstname-field"
                     type="text"
                     name="firstName"
                     placeholder="First Name"
                     />
+                
+                    </div>
                     {touched.firstName && errors.firstName && (
                     <p className="form__error">{errors.firstName}</p>
                     )}
                     <Field
-                    className="field"
+                    className="lastname-field"
                     type="text"
                     name="lastName"
                     placeholder="Last Name"
@@ -57,7 +60,7 @@ function SignUp(props) {
                     <p className="form__error">{errors.lastName}</p>
                     )}
                     <Field
-                    className="field"
+                    className="email-field"
                     type="email"
                     name="email"
                     placeholder="Email"
@@ -66,7 +69,7 @@ function SignUp(props) {
                     <p className="form__error">{errors.email}</p>
                     )}
                     <Field
-                    className="field"
+                    className="username-field"
                     type="text"
                     name="username"
                     placeholder="Username"
@@ -75,7 +78,7 @@ function SignUp(props) {
                     <p className="form__error">{errors.username}</p>
                     )}
                     <Field
-                    className="field"
+                    className="password-field"
                     type="password"
                     name="password"
                     placeholder="Password"
@@ -84,7 +87,7 @@ function SignUp(props) {
                     <p className="form__error">{errors.password}</p>
                     )}
                     <Field
-                    className="field"
+                    className="phonenumber-field"
                     type="text"
                     name="phone"
                     placeholder="Phone number"
@@ -95,7 +98,7 @@ function SignUp(props) {
                     <button className = "signup-button">
                         Sign Up
                     </button>
-                </div>
+                {/* </div> */}
                 </Form>
             )}
             </Formik>

@@ -35,7 +35,7 @@ function Login(props) {
                 <Form className="form">
                 <div className = "form-div">
                     <Field
-                    className="field"
+                    className="user-field"
                     type="text"
                     name="username"
                     placeholder="Username"
@@ -44,7 +44,7 @@ function Login(props) {
                     <p className="form-error">{errors.username}</p>
                     )}
                     <Field
-                    className="field"
+                    className="password-field"
                     type="password"
                     name="password"
                     placeholder="Password"
