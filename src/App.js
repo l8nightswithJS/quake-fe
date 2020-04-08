@@ -17,6 +17,7 @@ import UserDashboard from './components/UserDashboard';
 
 
 import SafetyTips from './components/SafetyTips';
+import UserLocationForm from './components/user_components/UserLocationForm';
 
 
 function App() {
@@ -42,7 +43,7 @@ function App() {
     <div className="App">
       
       
-      <PrivateRoute
+      {/* <PrivateRoute
         exact
         path='/map'
         component = {props => <LastEarthQuakeButton {...props} user = {user} />}
@@ -71,8 +72,8 @@ function App() {
         exact
         path='/dashboard'
         render={props => <UserDashboard {...props} setUser={setUser} />}
-      /> 
-
+      />  */}
+      <UserLocationForm />
 
     </div>
   );
