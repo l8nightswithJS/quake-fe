@@ -1,80 +1,73 @@
-import React, { useState, useEffect } from 'react';
-import { Route } from 'react-router-dom';
-import Login from './components/user_components/Login';
-import Signup from './components/user_components/Signup';
-import Logout from './components/user_components/Logout';
+// React
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import MediaQuery from "react-responsive";
 
+// Redux
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+import { rootReducer as reducers } from "./redux/reducers/index";
 
-import PrivateRoute from './Data/PrivateRoute';
-import axiosWithAuth from './Data/axiosWithAuth';
-import jwtDecode from 'jwt-decode';
-import QuakeMap from './components/map_components/Map.js'
-import LastEarthQuakeButton from './components/map_components/LastEarthQuakeButton.js';
-import UserDashboard from './components/UserDashboard';
+// Major Components
+import Activity from "./pages/activity/Activity";
+import FeedContainer from "./pages/feed/FeedContainer";
+import About from "./pages/about/About";
+import Resources from "./pages/resources/Resources";
+import BugReport from "./pages/report/BugReport";
+import Sms from "./pages/sms/Sms";
 
-//https://gifted-shirley-d83416.netlify.com/ is the deployed website.
+// Common Components
+import Header from "./components/Header";
+import Navigation from "./components/navigation/Navigation";
 
+// Utils
+import useDarkMode from "./utils/customHooks/useDarkMode";
 
+// Design
+import "./App.scss";
 
-import SafetyTips from './components/SafetyTips';
+// Google Analytics
+import ReactGA from "react-ga";
 
+const store = createStore(reducers, applyMiddleware(thunk));
 
 function App() {
-  const [user, setUser] = useState({});
+  ReactGA.initialize("UA-169193629-1"); //this is our unique ga id
+  ReactGA.pageview(window.location.pathname + window.location.search);
+  const [darkMode] = useDarkMode(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if(!token) return;
-    const decoded = jwtDecode(token);
-
-    if (!decoded || user) return;
-    (async () => {
-      try {
-        const response = await axiosWithAuth().get('https://quakelabs-be-staging.herokuapp.com/api/users/${decoded.__uuid}');
-        setUser(response.data.user);
-      } catch(error) {
-        console.log(error);
-      }
-    })();
-  },[user]);
+    if (darkMode) document.body.classList.add("dark-mode");
+    else document.body.classList.remove("dark-mode");
+  });
 
   return (
-    <div className="App">
-      
-      
-      <PrivateRoute
-        exact
-        path='/map'
-        component = {props => <LastEarthQuakeButton {...props} user = {user} />}
-      />
-      <Route
-        exact
-        path='/'
-        render={props => <Login {...props} setUser={setUser} />}
-      />
-      <Route
-        exact
-        path='/signup'
-        render={props => <Signup {...props} setUser={setUser} />}
-      />
-      <Route
-        exact
-        path='/logout'
-        render={props => <Logout {...props} setUser={setUser} />}
-      />
-      <Route
-        exact
-        path='/safetytips'
-        render={props => <SafetyTips {...props} setUser={setUser} />}
-      />
-      <Route
-        exact
-        path='/dashboard'
-        render={props => <UserDashboard {...props} setUser={setUser} />}
-      /> 
+    <Provider store={store}>
+      <Router>
+        <div className="App">
+          <Header />
 
+          <MediaQuery minWidth={800}>
+            <FeedContainer />
+          </MediaQuery>
 
-    </div>
+          <Switch>
+            <Route exact path="/" component={Activity} />
+            <Route exact path="/activity" component={Activity} />
+
+            <Route exact path="/feed" component={FeedContainer} />
+
+            <Route exact path="/about" component={About} />
+            <Route exact path="/resources" component={Resources} />
+            <Route exact path="/report" component={BugReport} />
+            <Route exact path="/sms" component={Sms} />
+          </Switch>
+
+          <Navigation />
+        </div>
+      </Router>
+    </Provider>
   );
 }
 
